@@ -78,3 +78,23 @@ This file tracks all user messages in this conversation.
 > So please summarize all three options nicely in the readme.md, (A) and (B) and (C) the earlier full package implementation without github or claude code. Once you summarized, please say that we are going for (B) and implement B
 
 ---
+
+## Message 10
+
+> Read the prd.md, the claude_input.md, and the readme.md. Show me the completed and outstanding tasks. Check the code if completed tasks are actually completed.
+
+---
+
+## Message 11
+
+> Just to be clear we are building the option (B)? Can you please rename this project into VeraChat. A chat summarisation versioning and tracking system
+
+---
+
+## Message 12
+
+> 1) I want it to be reusable. Ie I will have several apps where I want to use it. Suggest how that would work
+> 2) as a proof of concept I want to have a good looking UI which has a chat pane to chat with say chatGPT and for this chat I want the summary to be developed and change-tracked visually in the right pane. Ideally clicking on a chat message would highlight the portions of the summary that were changed; and the other way around highlighting a text in the summary would highlight the chat message specific bits that caused the summary to update.
+> 3) keep adding my messages and this conversation to claude_input.md and claude_chat.md as we progress here
+
+---
