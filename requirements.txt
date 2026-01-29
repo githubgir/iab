@@ -1,0 +1,13 @@
+# VeraChat dependencies
+
+# Core
+PyGithub>=2.1.0
+
+# UI (optional - for PoC)
+streamlit>=1.30.0
+
+# Database
+# sqlite3 is built into Python
+
+# Development
+pytest>=7.0.0

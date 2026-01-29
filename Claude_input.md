@@ -104,3 +104,9 @@ This file tracks all user messages in this conversation.
 > I would suggest the functionality of the bidirectional highlighting needs to be split between the reusable core component and the "throw away" visualisation. I want to know how we split the messages and summary in chunks and link them to each other and if we use GitHub features to store these chunks or we use GitHub only to process and then export everything into sqllite?
 
 ---
+
+## Message 14
+
+> Ok let's code it up then!
+
+---
