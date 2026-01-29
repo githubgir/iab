@@ -185,6 +185,34 @@ Committed and pushed changes.
 > 3) keep adding my messages and this conversation to claude_input.md and claude_chat.md as we progress here
 
 **Claude:**
-(Response below)
+Proposed hybrid architecture:
+
+**GitHub** = Source of truth (content + processing)
+**SQLite** = Query layer (fast lookups for UI)
+
+**Chunking approach:**
+- Messages split into semantic chunks (decisions, timelines, etc.) with character spans
+- Summary changes tracked as line ranges
+- Links stored in `.verachat/chunks/NNN.json` files (version-controlled)
+- SQLite rebuilt from Git history anytime
+
+**Core library responsibilities:**
+- `process()` - Claude Code processing + chunk extraction
+- `export_to_sqlite()` - Build query cache
+- `get_links_for_message()` / `get_links_for_line()` - Bidirectional queries
+
+**UI responsibilities:**
+- Rendering, highlighting, animations
+- Uses core's query APIs
+
+---
+
+## Message 9
+
+**User:**
+> I would suggest the functionality of the bidirectional highlighting needs to be split between the reusable core component and the "throw away" visualisation. I want to know how we split the messages and summary in chunks and link them to each other and if we use GitHub features to store these chunks or we use GitHub only to process and then export everything into sqllite?
+
+**Claude:**
+(Response above - detailed architecture for chunking and storage)
 
 ---
