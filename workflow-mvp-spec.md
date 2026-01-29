@@ -8,11 +8,11 @@ This document specifies the full MVP workflow for incremental document managemen
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           IDM MVP ARCHITECTURE                              │
+│                           VERACHAT ARCHITECTURE                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 
 ┌──────────────┐     ┌──────────────────┐     ┌──────────────────────────────┐
-│   User       │────▶│  IDM Functions   │────▶│  GitHub Repo                 │
+│   User       │────▶│  VeraChat Functions   │────▶│  GitHub Repo                 │
 │              │     │  (Python/CLI)    │     │  ├── summary.md              │
 └──────────────┘     └────────┬─────────┘     │  ├── summary_spec.md         │
                               │               │  ├── messages/               │
@@ -26,13 +26,13 @@ This document specifies the full MVP workflow for incremental document managemen
 
 ---
 
-## Function 1: Setup (`idm_setup`)
+## Function 1: Setup (`verachat_setup`)
 
 Creates and links a GitHub repo with Claude Code project configuration.
 
 ### Input
 ```python
-def idm_setup(
+def verachat_setup(
     repo_name: str,           # e.g., "my-project-notes"
     description: str,         # e.g., "Meeting notes and decisions tracker"
     github_token: str,        # GitHub personal access token
@@ -44,7 +44,7 @@ def idm_setup(
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              IDM_SETUP                                      │
+│                              VERACHAT_SETUP                                      │
 └─────────────────────────────────────────────────────────────────────────────┘
 
      ┌──────────────────┐
@@ -95,7 +95,7 @@ def idm_setup(
 │  4. COMMIT ALL FILES                  │
 │                                       │
 │  Commit message:                      │
-│  "Initialize IDM project: {desc}"     │
+│  "Initialize VeraChat project: {desc}"     │
 └───────────────────┬───────────────────┘
                     │
                     ▼
@@ -111,9 +111,9 @@ def idm_setup(
 
 **CLAUDE.md** (Claude Code project instructions):
 ```markdown
-# IDM Project Instructions
+# VeraChat Project Instructions
 
-This repository uses Incremental Document Management to maintain a living summary.
+This repository uses VeraChat to maintain a living summary of conversations.
 
 ## Your Role
 
@@ -163,7 +163,7 @@ When given a new message to process:
 
 ---
 
-## Function 2: Configure Spec (`idm_configure_spec`)
+## Function 2: Configure Spec (`verachat_configure_spec`)
 
 Interactive helper to create/update the summary_spec.md.
 
@@ -171,7 +171,7 @@ Interactive helper to create/update the summary_spec.md.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                          IDM_CONFIGURE_SPEC                                 │
+│                          VERACHAT_CONFIGURE_SPEC                                 │
 └─────────────────────────────────────────────────────────────────────────────┘
 
      ┌──────────────────┐
@@ -184,7 +184,7 @@ Interactive helper to create/update the summary_spec.md.
 ┌───────────────────────────────────────┐
 │  Option A: Direct content             │
 │                                       │
-│  idm_configure_spec(                  │
+│  verachat_configure_spec(                  │
 │    repo_path="/path/to/repo",         │
 │    spec_content="# Summary Spec..."   │
 │  )                                    │
@@ -212,7 +212,7 @@ Interactive helper to create/update the summary_spec.md.
 
 ### Input
 ```python
-def idm_configure_spec(
+def verachat_configure_spec(
     repo_path: str,
     spec_content: str = None,      # Direct content
     interactive: bool = False       # If True, prompt user for each section
@@ -221,13 +221,13 @@ def idm_configure_spec(
 
 ---
 
-## Function 3: Process Message (`idm_process`)
+## Function 3: Process Message (`verachat_process`)
 
 Takes a new message and updates the summary.
 
 ### Input
 ```python
-def idm_process(
+def verachat_process(
     repo_path: str,
     message: str,
     branch: str = "main"
@@ -238,7 +238,7 @@ def idm_process(
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                            IDM_PROCESS                                      │
+│                            VERACHAT_PROCESS                                      │
 └─────────────────────────────────────────────────────────────────────────────┘
 
      ┌──────────────────┐
@@ -365,13 +365,13 @@ Updated summary:"""
 
 ---
 
-## Function 4: Get Diff for Message (`idm_get_diff`)
+## Function 4: Get Diff for Message (`verachat_get_diff`)
 
 Retrieves the summary.md changes for a specific message.
 
 ### Input
 ```python
-def idm_get_diff(
+def verachat_get_diff(
     repo_path: str,
     message_number: int,
     context_lines: int = 3
@@ -382,7 +382,7 @@ def idm_get_diff(
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                            IDM_GET_DIFF                                     │
+│                            VERACHAT_GET_DIFF                                     │
 └─────────────────────────────────────────────────────────────────────────────┘
 
      ┌──────────────────┐
@@ -440,7 +440,7 @@ def idm_get_diff(
 ```python
 import subprocess
 
-def idm_get_diff(repo_path: str, message_number: int, context_lines: int = 3) -> dict:
+def verachat_get_diff(repo_path: str, message_number: int, context_lines: int = 3) -> dict:
     msg_file = f"messages/{message_number:03d}.md"
 
     # Find the commit that added this message
@@ -521,13 +521,13 @@ def parse_diff_stats(diff_text: str) -> dict:
 
 ---
 
-## Function 5: Visualize History (`idm_visualize`)
+## Function 5: Visualize History (`verachat_visualize`)
 
 Generates a visual representation of the summary evolution.
 
 ### Input
 ```python
-def idm_visualize(
+def verachat_visualize(
     repo_path: str,
     output_format: str = "terminal",  # "terminal", "html", "json"
     last_n: int = None                 # Limit to last N messages
@@ -538,7 +538,7 @@ def idm_visualize(
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           IDM_VISUALIZE                                     │
+│                           VERACHAT_VISUALIZE                                     │
 └─────────────────────────────────────────────────────────────────────────────┘
 
      ┌──────────────────┐
@@ -590,7 +590,7 @@ def idm_visualize(
 ### Terminal Output Example
 
 ```
-IDM History: my-project-notes (15 messages)
+VeraChat History: my-project-notes (15 messages)
 ============================================
 
 MSG  DATE        CHANGES   DESCRIPTION
@@ -621,7 +621,7 @@ Total: 15 messages, 247 lines in summary.md
 ### Implementation
 
 ```python
-def idm_visualize(repo_path: str, output_format: str = "terminal", last_n: int = None) -> str:
+def verachat_visualize(repo_path: str, output_format: str = "terminal", last_n: int = None) -> str:
     # Get all message-processing commits
     result = subprocess.run(
         ["git", "log", "--oneline", "--format=%H|%s|%ai", "--", "messages/"],
@@ -673,7 +673,7 @@ def idm_visualize(repo_path: str, output_format: str = "terminal", last_n: int =
 
 def render_terminal(commits: list) -> str:
     lines = []
-    lines.append(f"IDM History ({len(commits)} messages)")
+    lines.append(f"VeraChat History ({len(commits)} messages)")
     lines.append("=" * 60)
     lines.append("")
     lines.append(f"{'MSG':<4} {'DATE':<12} {'CHANGES':<10} DESCRIPTION")
@@ -701,7 +701,7 @@ def render_terminal(commits: list) -> str:
 ## Complete Python Module
 
 ```python
-# idm.py - Incremental Document Management via Claude + GitHub
+# verachat.py - Chat Summarisation Versioning and Tracking via Claude + GitHub
 
 import os
 import json
@@ -710,13 +710,13 @@ from pathlib import Path
 import anthropic
 from github import Github
 
-class IDM:
+class VeraChat:
     def __init__(self, github_token: str = None, anthropic_key: str = None):
         self.github = Github(github_token or os.environ.get("GITHUB_TOKEN"))
         self.claude = anthropic.Anthropic(api_key=anthropic_key)
 
     def setup(self, repo_name: str, description: str, private: bool = True) -> dict:
-        """Create and initialize a new IDM repository."""
+        """Create and initialize a new VeraChat repository."""
         # Implementation from Function 1
         ...
 
@@ -743,38 +743,38 @@ class IDM:
 # CLI interface
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Incremental Document Management")
+    parser = argparse.ArgumentParser(description="VeraChat - Chat Summarisation Versioning and Tracking")
     subparsers = parser.add_subparsers(dest="command")
 
-    # idm setup my-notes "Project meeting notes"
+    # verachatsetup my-notes "Project meeting notes"
     setup_p = subparsers.add_parser("setup")
     setup_p.add_argument("name")
     setup_p.add_argument("description")
 
-    # idm process "New message content here"
+    # verachatprocess "New message content here"
     process_p = subparsers.add_parser("process")
     process_p.add_argument("message")
 
-    # idm diff 42
+    # verachatdiff 42
     diff_p = subparsers.add_parser("diff")
     diff_p.add_argument("message_number", type=int)
 
-    # idm viz --format=terminal --last=10
+    # verachatviz --format=terminal --last=10
     viz_p = subparsers.add_parser("viz")
     viz_p.add_argument("--format", default="terminal")
     viz_p.add_argument("--last", type=int)
 
     args = parser.parse_args()
-    idm = IDM()
+    vc = VeraChat()
 
     if args.command == "setup":
-        print(idm.setup(args.name, args.description))
+        print(vc.setup(args.name, args.description))
     elif args.command == "process":
-        print(idm.process(".", args.message))
+        print(vc.process(".", args.message))
     elif args.command == "diff":
-        print(idm.get_diff(".", args.message_number))
+        print(vc.get_diff(".", args.message_number))
     elif args.command == "viz":
-        print(idm.visualize(".", args.format, args.last))
+        print(vc.visualize(".", args.format, args.last))
 ```
 
 ---
@@ -783,7 +783,7 @@ if __name__ == "__main__":
 
 ```bash
 # 1. Setup
-idm setup "q1-planning" "Q1 2025 planning discussions"
+verachat setup "q1-planning" "Q1 2025 planning discussions"
 
 # 2. Configure spec (edit the file, then commit)
 cd q1-planning
@@ -791,16 +791,16 @@ vim summary_spec.md  # Define your rules
 git add summary_spec.md && git commit -m "Configure summary spec"
 
 # 3. Process messages
-idm process "Meeting with Sarah: agreed on $50k budget for the new feature"
-idm process "Email from Bob: timeline moved to March 15"
-idm process "Slack thread: team prefers React over Vue for frontend"
+verachat process "Meeting with Sarah: agreed on $50k budget for the new feature"
+verachat process "Email from Bob: timeline moved to March 15"
+verachat process "Slack thread: team prefers React over Vue for frontend"
 
 # 4. View what a specific message changed
-idm diff 2
+verachat diff 2
 # Shows: +1 line adding "Timeline: March 15" to summary
 
 # 5. Visualize history
-idm viz --last=10
+verachat viz --last=10
 ```
 
 ---
@@ -811,7 +811,7 @@ For fully automated processing, add a GitHub Action:
 
 ```yaml
 # .github/workflows/process-message.yml
-name: Process IDM Message
+name: Process VeraChat Message
 
 on:
   issues:
@@ -821,7 +821,7 @@ on:
 
 jobs:
   process:
-    if: contains(github.event.issue.labels.*.name, 'idm-message')
+    if: contains(github.event.issue.labels.*.name, 'verachat-message')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -831,15 +831,15 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           pip install anthropic
-          python idm.py process "${{ github.event.issue.body || github.event.comment.body }}"
+          python verachat.py process "${{ github.event.issue.body || github.event.comment.body }}"
 
       - name: Commit changes
         run: |
-          git config user.name "IDM Bot"
+          git config user.name "VeraChat Bot"
           git config user.email "idm@example.com"
           git add .
           git commit -m "Process message from issue #${{ github.event.issue.number }}"
           git push
 ```
 
-This allows you to create GitHub issues labeled `idm-message` and have them automatically processed into the summary.
+This allows you to create GitHub issues labeled `verachat-message` and have them automatically processed into the summary.

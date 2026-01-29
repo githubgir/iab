@@ -1,10 +1,10 @@
-# IDM - Incremental Document Management
+# VeraChat
 
-A lightweight tool for maintaining living summary documents using Claude AI and GitHub as the backend.
+A chat summarisation versioning and tracking system powered by Claude AI and GitHub.
 
 ## Overview
 
-IDM tracks conversations, meetings, or any stream of messages by:
+VeraChat tracks conversations, meetings, or any stream of messages by:
 1. Storing each message as a separate file
 2. Maintaining a continuously updated summary
 3. Using Git commits for version control and provenance tracking
@@ -21,7 +21,7 @@ Message 3 ──┘                    │
 
 ## Implementation Options
 
-Three approaches were considered for implementing IDM:
+Three approaches were considered for implementing VeraChat:
 
 ### Option A: Anthropic API + GitHub
 
@@ -114,32 +114,32 @@ export GITHUB_TOKEN="your-github-token"
 ## Quick Start
 
 ```bash
-# 1. Setup a new IDM project
-python idm.py setup "my-notes" "Meeting notes tracker"
+# 1. Setup a new VeraChat project
+python verachat.py setup "my-notes" "Meeting notes tracker"
 
 # 2. Edit summary_spec.md to define your summarization rules
 cd my-notes
 vim summary_spec.md
 
 # 3. Process messages
-python ../idm.py process "Meeting with team: decided to use React"
-python ../idm.py process "Budget approved: $50k for Q2"
+python ../verachat.py process "Meeting with team: decided to use React"
+python ../verachat.py process "Budget approved: $50k for Q2"
 
 # 4. View what a message changed
-python ../idm.py diff 1
+python ../verachat.py diff 1
 
 # 5. Visualize history
-python ../idm.py viz
+python ../verachat.py viz
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `idm.py setup <name> <desc>` | Create new IDM repository |
-| `idm.py process <message>` | Process a new message |
-| `idm.py diff <number>` | Show summary changes for a message |
-| `idm.py viz [--last N]` | Visualize summary evolution |
+| `verachat.py setup <name> <desc>` | Create new VeraChat repository |
+| `verachat.py process <message>` | Process a new message |
+| `verachat.py diff <number>` | Show summary changes for a message |
+| `verachat.py viz [--last N]` | Visualize summary evolution |
 
 ## Project Structure
 

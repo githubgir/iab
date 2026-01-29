@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-IDM - Incremental Document Management (Option B: Claude Code CLI)
+VeraChat - Chat Summarisation Versioning and Tracking (Option B: Claude Code CLI)
 
 Uses Claude Code CLI for surgical edits to summary documents.
 Claude Code's Edit tool makes minimal line-level changes rather than rewriting files.
@@ -23,8 +23,8 @@ from prompts import (
 )
 
 
-class IDM:
-    """Incremental Document Management via Claude Code CLI + GitHub."""
+class VeraChat:
+    """Chat Summarisation Versioning and Tracking via Claude Code CLI + GitHub."""
 
     def __init__(self, github_token: Optional[str] = None):
         self.github = Github(github_token or os.environ.get("GITHUB_TOKEN"))
@@ -37,7 +37,7 @@ class IDM:
         local_path: Optional[str] = None,
     ) -> dict:
         """
-        Create and initialize a new IDM repository.
+        Create and initialize a new VeraChat repository.
 
         Args:
             repo_name: Name for the new repository
@@ -172,7 +172,7 @@ class IDM:
         msg_file = f"messages/{msg_number:03d}.md"
 
         # Build the prompt for Claude Code
-        prompt = f"""Process this new message for the IDM summary.
+        prompt = f"""Process this new message for the VeraChat summary.
 
 Instructions:
 1. Read summary_spec.md to understand the summarization rules
@@ -511,7 +511,7 @@ Remember: Make minimal, surgical edits to summary.md for each chunk."""
             return "No messages processed yet."
 
         lines = []
-        lines.append(f"IDM History ({len(commits)} messages)")
+        lines.append(f"VeraChat History ({len(commits)} messages)")
         lines.append("=" * 70)
         lines.append("")
         lines.append(f"{'MSG':<8} {'DATE':<12} {'CHANGES':<12} DESCRIPTION")
@@ -544,7 +544,7 @@ Remember: Make minimal, surgical edits to summary.md for each chunk."""
     def _render_html(self, commits: list) -> str:
         """Render HTML visualization."""
         html = ["<!DOCTYPE html>", "<html>", "<head>"]
-        html.append("<title>IDM History</title>")
+        html.append("<title>VeraChat History</title>")
         html.append("<style>")
         html.append("body { font-family: monospace; padding: 20px; }")
         html.append("table { border-collapse: collapse; width: 100%; }")
@@ -555,7 +555,7 @@ Remember: Make minimal, surgical edits to summary.md for each chunk."""
         html.append("</style>")
         html.append("</head>")
         html.append("<body>")
-        html.append(f"<h1>IDM History ({len(commits)} messages)</h1>")
+        html.append(f"<h1>VeraChat History ({len(commits)} messages)</h1>")
         html.append("<table>")
         html.append("<tr><th>Msg</th><th>Date</th><th>Changes</th><th>Description</th></tr>")
 
@@ -578,13 +578,13 @@ Remember: Make minimal, surgical edits to summary.md for each chunk."""
 def main():
     """CLI entry point."""
     parser = argparse.ArgumentParser(
-        description="IDM - Incremental Document Management (Claude Code CLI)",
+        description="VeraChat - Chat Summarisation Versioning and Tracking (Claude Code CLI)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # setup command
-    setup_parser = subparsers.add_parser("setup", help="Create a new IDM repository")
+    setup_parser = subparsers.add_parser("setup", help="Create a new VeraChat repository")
     setup_parser.add_argument("name", help="Repository name")
     setup_parser.add_argument("description", help="Repository description")
     setup_parser.add_argument("--public", action="store_true", help="Make repo public")
@@ -613,28 +613,28 @@ def main():
         parser.print_help()
         return
 
-    idm = IDM()
+    vc = VeraChat()
 
     if args.command == "setup":
-        result = idm.setup(args.name, args.description, private=not args.public)
+        result = vc.setup(args.name, args.description, private=not args.public)
         print(f"Repository created: {result['repo_url']}")
         print(f"Cloned to: {result['local_path']}")
         print(f"\nNext step: {result['next_step']}")
 
     elif args.command == "process":
         if args.chunked:
-            result = idm.process_chunked(args.repo, args.message)
+            result = vc.process_chunked(args.repo, args.message)
             print(f"Processed {result['chunks_processed']} chunks")
             for f in result["chunk_files"]:
                 print(f"  - {f}")
         else:
-            result = idm.process(args.repo, args.message)
+            result = vc.process(args.repo, args.message)
             print(f"Processed message {result['message_number']}")
             print(f"Commit: {result['commit_sha'][:7]}")
             print(f"Summary: +{result['summary_diff']['lines_added']} -{result['summary_diff']['lines_removed']}")
 
     elif args.command == "diff":
-        result = idm.get_diff(args.repo, args.message_number, args.context)
+        result = vc.get_diff(args.repo, args.message_number, args.context)
         print(f"Message {result['message_number']} ({result['commit']['date'][:10]})")
         print(f"Commit: {result['commit']['sha'][:7]} - {result['commit']['subject']}")
         print()
@@ -642,7 +642,7 @@ def main():
         print(result["diff"]["raw"])
 
     elif args.command == "viz":
-        output = idm.visualize(args.repo, args.format, args.last)
+        output = vc.visualize(args.repo, args.format, args.last)
         print(output)
 
 
